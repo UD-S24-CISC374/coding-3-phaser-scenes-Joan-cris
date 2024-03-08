@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
-    | Phaser.Tilemaps.Tile; 
+    | Phaser.Tilemaps.Tile;
 
 export default class MainScene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene {
     private gameOver = false;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "Second" });
     }
 
     create() {
@@ -30,7 +30,7 @@ export default class MainScene extends Phaser.Scene {
             .setOrigin(1, 0);
 
         this.add.image(400, 300, "star");
-        this.add.image(400, 300, "arena2");
+        this.add.image(400, 300, "parth");
 
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
@@ -154,7 +154,10 @@ export default class MainScene extends Phaser.Scene {
                 bomb.setCollideWorldBounds(true);
                 bomb.setVelocityY(Phaser.Math.Between(-200, 200), 20);
             }
-        } 
+        }
+        if (this.score >= 100) {
+            this.scene.start("SecondScene");
+        }
     }
 
     update() {
