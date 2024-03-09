@@ -3,7 +3,7 @@ export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
     | Phaser.Tilemaps.Tile;
 
-export default class MainScene extends Phaser.Scene {
+export default class ThirdScene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene {
     private gameOver = false;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "ThirdScene" });
     }
 
     create() {
@@ -30,7 +30,7 @@ export default class MainScene extends Phaser.Scene {
             .setOrigin(1, 0);
 
         this.add.image(400, 300, "star");
-        this.add.image(400, 300, "arena2");
+        this.add.image(400, 300, "plaka");
 
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
@@ -41,9 +41,9 @@ export default class MainScene extends Phaser.Scene {
 
         ground.setScale(2).refreshBody();
 
-        this.platforms.create(500, 420, "column");
-        this.platforms.create(170, 290, "column");
-        this.platforms.create(570, 178, "column");
+        this.platforms.create(520, 440, "column");
+        this.platforms.create(200, 370, "column");
+        this.platforms.create(580, 200, "column");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);
@@ -131,9 +131,12 @@ export default class MainScene extends Phaser.Scene {
         this.score += 10;
         this.scoreText?.setText("Score:" + this.score);
         // check if score reaches 220
+        //  if (this.score >= 220) {
+        //       this.scene.start("Second");
+        //   }
 
-        if (this.score >= 100) {
-            this.scene.start("SecondScene");
+        if (this.score >= 300) {
+            this.scene.start("FourthScene");
         }
 
         if (this.stars?.countActive(true) === 0) {
@@ -179,9 +182,9 @@ export default class MainScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-330);
         }
-        if (this.score >= 270) {
-            this.scene.start("SecondScene");
-        }
+        //    if (this.score >= 270){
+        //        this.scene.start("SecondScene");
+        //    }
         if (this.gameOver) {
             this.scene.start("GameOver");
         }

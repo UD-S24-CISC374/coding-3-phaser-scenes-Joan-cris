@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 export type Collidable =
     | Phaser.Types.Physics.Arcade.GameObjectWithBody
-    | Phaser.Tilemaps.Tile;
+    | Phaser.Tilemaps.Tile; 
 
-export default class MainScene extends Phaser.Scene {
+export default class FourthScene extends Phaser.Scene {
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene {
     private gameOver = false;
 
     constructor() {
-        super({ key: "MainScene" });
+        super({ key: "FourthScene" });
     }
 
     create() {
@@ -30,7 +30,7 @@ export default class MainScene extends Phaser.Scene {
             .setOrigin(1, 0);
 
         this.add.image(400, 300, "star");
-        this.add.image(400, 300, "arena2");
+        this.add.image(400, 300, "arena3");
 
         this.platforms = this.physics.add.staticGroup();
         const ground = this.platforms.create(
@@ -41,9 +41,10 @@ export default class MainScene extends Phaser.Scene {
 
         ground.setScale(2).refreshBody();
 
-        this.platforms.create(500, 420, "column");
-        this.platforms.create(170, 290, "column");
-        this.platforms.create(570, 178, "column");
+        this.platforms.create(160, 400, "column");
+        this.platforms.create(120, 240, "column");
+        this.platforms.create(560, 200, "column");
+        this.platforms.create(670, 400, "column");
 
         this.player = this.physics.add.sprite(100, 450, "dude");
         this.player.setBounce(0.2);
@@ -103,6 +104,7 @@ export default class MainScene extends Phaser.Scene {
             color: "#000000",
         });
 
+
         this.bombs = this.physics.add.group();
 
         this.physics.add.collider(this.bombs, this.platforms);
@@ -116,6 +118,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     private handleHitBomb() {
+
         this.physics.pause();
 
         this.player?.setTint(0xff0000);
@@ -131,10 +134,10 @@ export default class MainScene extends Phaser.Scene {
         this.score += 10;
         this.scoreText?.setText("Score:" + this.score);
         // check if score reaches 220
-
-        if (this.score >= 100) {
-            this.scene.start("SecondScene");
-        }
+      //  if (this.score >= 220) {
+     //       this.scene.start("Second");
+     //   }
+      
 
         if (this.stars?.countActive(true) === 0) {
             this.stars.children.iterate((c) => {
@@ -158,7 +161,7 @@ export default class MainScene extends Phaser.Scene {
                 bomb.setCollideWorldBounds(true);
                 bomb.setVelocityY(Phaser.Math.Between(-200, 200), 20);
             }
-        }
+        } 
     }
 
     update() {
@@ -179,11 +182,11 @@ export default class MainScene extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-330);
         }
-        if (this.score >= 270) {
-            this.scene.start("SecondScene");
-        }
-        if (this.gameOver) {
-            this.scene.start("GameOver");
-        }
+    //    if (this.score >= 270){
+    //        this.scene.start("SecondScene");
+    //    }
+    if (this.gameOver) {
+        this.scene.start("GameOver");
+    }
     }
 }
